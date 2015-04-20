@@ -1,21 +1,23 @@
 var tailApp = angular.module('tailApp', [
-  //'ngRoute',
+  'ui.router'
 ]);
 
 
 
 
-/*
-tailApp.config(function ($routeProvider, $locationProvider) {
-    $routeProvider.when('/', {
-        templateUrl: 'views/about.html',
-        controller: 'aboutController'
-      }).
-      otherwise({
-        redirectTo: '/about'
+
+tailApp.config(['$stateProvider',
+  function($stateProvider) {
+    $stateProvider
+    .state("about", {
+        url:'../views/about',
+        templateUrl: '../views/about.html',
+        controller: 'aboutcontroller',
+      })
+    .state("search", {
+        url:'../views/search',
+        templateUrl: '../views/search.html',
+        controller: 'searchcontroller',
       });
-
-      $locationProvider.html5Mode(true);
-
-
-    });*/
+  }
+]);
