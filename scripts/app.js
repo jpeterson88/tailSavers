@@ -1,23 +1,33 @@
 var tailApp = angular.module('tailApp', [
-  'ui.router'
-]);
+  'ui.router', 'uiGmapgoogle-maps', 'ui.router.router']);
 
+tailApp.config(['$stateProvider', '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
+$urlRouterProvider.otherwise("/home");
 
-
-
-
-tailApp.config(['$stateProvider',
-  function($stateProvider) {
     $stateProvider
+    .state("home", {
+        url:'/home',
+        templateUrl: '../views/home.html',
+        controller: 'homecontroller',
+      })
     .state("about", {
-        url:'../views/about',
+        url:'/about',
         templateUrl: '../views/about.html',
         controller: 'aboutcontroller',
       })
     .state("search", {
-        url:'../views/search',
+        url:'/search',
         templateUrl: '../views/search.html',
         controller: 'searchcontroller',
       });
   }
 ]);
+
+//configure GCJ-02
+tailApp.config(
+    ['uiGmapGoogleMapApiProvider', function(uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            china: true
+        });
+    }]);
