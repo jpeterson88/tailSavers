@@ -28,6 +28,8 @@ $urlRouterProvider.otherwise("/home");
 tailApp.config(
     ['uiGmapGoogleMapApiProvider', function(uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            china: true
+            china: true,
+            v: '3.17',
+            libraries: 'places'
         });
     }]);
