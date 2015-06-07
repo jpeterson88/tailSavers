@@ -20,7 +20,12 @@ $urlRouterProvider.otherwise("/home");
         url:'/search',
         templateUrl: '../views/search.html',
         controller: 'searchcontroller',
-      });
+      })
+     .state("contact", {
+     url:'/contact',
+     templateUrl: '../views/search.html',
+     controller: 'searchcontroller',
+   });
   }
 ]);
 
