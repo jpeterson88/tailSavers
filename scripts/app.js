@@ -23,8 +23,8 @@ $urlRouterProvider.otherwise("/home");
       })
      .state("contact", {
      url:'/contact',
-     templateUrl: '../views/search.html',
-     controller: 'searchcontroller',
+     templateUrl: '../views/contact.html',
+     controller: 'contactcontroller',
    });
   }
 ]);
