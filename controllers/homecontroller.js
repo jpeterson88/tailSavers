@@ -4,30 +4,63 @@ $scope.test = "Home"
 
 $scope.map = {
     "center": {
-        "latitude": 52.47491894326404,
-        "longitude": -1.8684210293371217
+        "latitude": 37,
+        "longitude": -122
     },
     "zoom": 15
-}; //TODO:  set location based on users current gps location 
-$scope.marker = {
+};
+
+
+$scope.markers = [
+
+{
     id: 0,
     coords: {
-        latitude: 52.47491894326404,
-        longitude: -1.8684210293371217
+        latitude: 37.4224553,
+        longitude: -122.0843062
     },
-    options: { draggable: true },
+    options: {draggable : false },
     events: {
-        dragend: function (marker, eventName, args) {
-
-            $scope.marker.options = {
-                draggable: true,
-                labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                labelAnchor: "100 0",
-                labelClass: "marker-labels"
-            };
-        }
+      
     }
-};
+}, 
+{
+    id: 1,
+    coords: {
+        latitude: 33.8887655,
+        longitude: -117.8719478
+    },
+    options: {draggable : false },
+    events: {
+    
+    }
+},
+{
+    id: 2,
+    coords: {
+        latitude: 33.6841154,
+        longitude: -117.8574498
+    },
+    options: {draggable : false },
+    events: {
+       
+        }
+    },
+{
+    id: 3,
+    coords: {
+        latitude: 33.8000673,
+        longitude: -117.8832376
+    },
+    options: {draggable : false },
+    events: {
+    
+        }
+    }]; 
+
+
+
+
 var events = {
     places_changed: function (searchBox) {
         var place = searchBox.getPlaces();
