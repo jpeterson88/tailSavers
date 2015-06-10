@@ -1,6 +1,10 @@
-tailApp.controller('homecontroller', function($scope){
+tailApp.controller('homecontroller', function($scope, $http){
 
 $scope.test = "Home"
+$scope.street = '';
+$scope.city = '';
+$scope.state = '';
+
 
 $scope.map = {
     "center": {
@@ -86,5 +90,31 @@ var events = {
     }
 };
 $scope.searchbox = { template: '../components/search.tpl.html', events: events, position: 'TOP_LEFT' };
+
+
+
+$scope.submit = function(){
+
+
+    var req = {
+     method: 'GET',
+     url: 'http://localhost:3000/getcoords',
+     headers: {
+       'Content-Type': undefined
+     },
+     data: { street: $scope.street, city: $scope.city, state: $scope.state }
+    }
+
+    $http(req).success(function(data, status, headers, config){ 
+        var t = 1;
+    }).error(function(data, status, headers, config){
+        var x = 1;
+    });
+
+};
+
+
+
+
 
 });

@@ -1,4 +1,13 @@
+<div>
 <ui-gmap-google-map center='map.center' zoom='map.zoom'>
 	<ui-gmap-search-box template="searchbox.template" events="searchbox.events" position="searchbox.position"></ui-gmap-search-box>
     <ui-gmap-markers models="markers" coords="'coords'" options="marker.options" events="marker.events" idkey="marker.id">
 </ui-gmap-google-map>
+ <form novalidate class="simple-form">
+    Street: <input type="text" ng-model="street" /><br />
+    City: <input type="text" ng-model="city" /><br />
+    State: <input type="text" ng-model="state" /><br />
+    
+    <input type="submit" ng-click="submit()" value="Save" />
+  </form>
+</div>
