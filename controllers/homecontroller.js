@@ -100,15 +100,15 @@ $scope.submit = function(){
      method: 'GET',
      url: 'http://localhost:3000/getcoords',
      headers: {
-       'Content-Type': undefined
+       'Content-Type': 'application/json'
      },
      data: { street: $scope.street, city: $scope.city, state: $scope.state }
     }
 
     $http(req).success(function(data, status, headers, config){ 
-        var t = 1;
+        
     }).error(function(data, status, headers, config){
-        var x = 1;
+        
     });
 
 };
