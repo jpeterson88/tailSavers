@@ -89,7 +89,7 @@ var events = {
         };
     }
 };
-$scope.searchbox = { template: '../components/search.tpl.html', events: events, position: 'TOP_LEFT' };
+$scope.searchbox = { template: '../components/searchBox.html', events: events, position: 'TOP_LEFT' };
 
 
 
@@ -97,18 +97,15 @@ $scope.submit = function(){
 
 
     var req = {
-     method: 'GET',
+     method: 'get',
      url: 'http://localhost:3000/getcoords',
-     headers: {
-       'Content-Type': 'application/json'
-     },
      data: { street: $scope.street, city: $scope.city, state: $scope.state }
     }
 
     $http(req).success(function(data, status, headers, config){ 
-        
+        var i = 1;
     }).error(function(data, status, headers, config){
-        
+        var i =1;
     });
 
 };
