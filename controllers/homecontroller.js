@@ -97,9 +97,11 @@ $scope.submit = function(){
 
 
     var req = {
-     method: 'get',
+     method: 'POST',
      url: 'http://localhost:3000/getcoords',
-     data: { street: $scope.street, city: $scope.city, state: $scope.state }
+     dataType: 'json',
+     data: { street: $scope.street, city: $scope.city, state: $scope.state },
+     headers: {'Content-Type': 'application/json'}
     }
 
     $http(req).success(function(data, status, headers, config){ 
