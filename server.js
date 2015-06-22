@@ -1,39 +1,37 @@
 var express = require('express');
+var request = require('request');
 var http = require('http');
 var app = express();
 var bodyParser = require('body-parser');
-//var multer = require('multer'); 
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-//app.use(multer()); // for parsing multipart/form-data
-
-
 
 //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDm4xGlr4ptZ-7Cx8OGqfDQy-6DBBjrEbQ
 
-
 app.post('/getcoords', function (req, res) {
- // console.log(req.body);
- // res.json(req.body);
-
-var fullAddress = '';
 
 	if(req.body !== null){
-		getLatAndLongFromAddress(buildAddressFromBody(req.body))
+	request('https://maps.googleapis.com/maps/api/geocode/json?address=' + buildAddressFromBody(req.body) +'&key=AIzaSyDm4xGlr4ptZ-7Cx8OGqfDQy-6DBBjrEbQ', function (error, response, body) {
+		  if (!error && response.statusCode == 200) {
+			  var resp = JSON.parse(body);
+			  
+			  //Look at status codes and return proper code so client knows how to handle
+			  var status = getGoogleGeocodingStatusCode(resp.status);
 
+			  var location = resp.results[0].geometry.location;
+			  res.send({status : status, location : location});
+		  }
+
+		  else if(error){
+		  	
+		  }
+		})
 	}
-		
+});
 
-console.log(fullAddress);
-
-
-})
-
-
-app.post('/', function (req, res) {
-  console.log(req.body);
+app.post('/', function (req, res) {  
   res.json(req.body);
 })
 
@@ -46,35 +44,45 @@ function buildAddressFromBody(body){
 	return street + ',+' + city + ',+' + state;
 }
 
-function getLatAndLongFromAddress(address){
-	  var options = {
-	    host: 'https://maps.googleapis.com',
-	    path: '/maps/api/geocode/json?address=' + address +'&key=AIzaSyDm4xGlr4ptZ-7Cx8OGqfDQy-6DBBjrEbQ'
-	  };
-	  //maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=API_KEY
 
-	  var req = http.get(options, function(res) {
-	 // console.log('STATUS: ' + res.statusCode);
-	  //console.log('HEADERS: ' + JSON.stringify(res.headers));
-	  console.log('PATH: ' + options.path);
+function getGoogleGeocodingStatusCode(status){
 
-	  // Buffer the body entirely for processing as a whole.
-	  var bodyChunks = [];
-	  res.on('data', function(chunk) {
-	    // You can process streamed parts here...
-	    bodyChunks.push(chunk);
-	  }).on('end', function() {
-	    var body = Buffer.concat(bodyChunks);
-	    console.log('BODY: ' + body);
-	    // ...and/or process the entire body here.
-	  })
-	});
+	var response = { message: '', code: 0 };
 
-	req.on('error', function(e) {
-	  console.log('ERROR: ' + e.message);
-	});
+	switch(status){
+		case "OK":
+			response.message = "Success";
+			response.code = 200;
+			break;
+
+		case "ZERO_RESULTS":
+			response.code = 300;
+			response.message = 'Unable to locate lat and long';
+		break;
+
+		case "OVER_QUERY_LIMIT":
+			response.code = 400;
+			response.message = 'Over Query Limit';
+		break;
+
+		case "REQUEST_DENIED":
+			response.code = 500;
+			response.message = 'Request denied';
+		break;
+
+		case "INVALID_REQUEST":
+			response.code = 600;
+			response.message = 'Invalid Request';
+		break;
+
+		default:
+			response.code = 700;
+			response.message = 'Unknown error occured';
+			break;
+	}
+
+	return response;
 }
-
 
 
 

@@ -105,7 +105,7 @@ $scope.submit = function(){
     }
 
     $http(req).success(function(data, status, headers, config){ 
-        var i = 1;
+        console.log(data);
     }).error(function(data, status, headers, config){
         var i =1;
     });
