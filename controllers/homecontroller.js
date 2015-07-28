@@ -15,7 +15,7 @@ $scope.map = {
 };
 
 
-$scope.markers = [
+$scope.map.markers = [
 
 {
     id: 0,
@@ -105,12 +105,36 @@ $scope.submit = function(){
     }
 
     $http(req).success(function(data, status, headers, config){ 
-        console.log(data);
-    }).error(function(data, status, headers, config){
-        var i =1;
-    });
 
+        if(data !== null && data.location !== null){
+            var marker = new google.maps.Marker( {
+                id: getHighestMarkerId() + 1,
+                animation: google.maps.Animation.DROP,
+                coords: {
+                      latitude:data.location.lat,
+                      longitude: data.location.lng
+                },
+                options: {draggable : false },
+            });
+            $scope.map.markers.push(marker);
+
+        }
+
+    }).error(function(data, status, headers, config){
+        
+    });
 };
+
+function getHighestMarkerId(){
+    var maxid = 0;
+
+        $scope.map.markers.map(function(obj){     
+            if (obj.id > maxid) 
+                maxid = obj.id;    
+        });
+
+    return maxid;
+}
 
 
 
